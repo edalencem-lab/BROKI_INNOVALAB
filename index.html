@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eaf5d9">
+<title>Broki | Tu bienestar, paso a paso</title>
+<style>
+:root{--green:#245d2b;--green2:#3c873d;--lime:#cce99a;--pale:#f4f8e9;--cream:#fffef4;--ink:#263b28;--muted:#637264;--line:#d8e6c5;--shadow:0 10px 28px #294b2112}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#edf6df,#f9f8ec 50%,#edf6df);color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif}
+header{padding:22px 5vw 18px;background:#eaf5d9;border-bottom:1px solid var(--line)}.top{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}.mascot{font-size:46px;filter:drop-shadow(0 3px 0 #b7d58a)}.brand h1{margin:0;color:var(--green);font-size:30px;letter-spacing:-1px}.brand p{margin:2px 0;color:var(--muted);font-size:13px}
+nav{display:flex;gap:8px;flex-wrap:wrap}nav a{color:var(--green);text-decoration:none;padding:9px 13px;border-radius:20px;font-weight:700;font-size:14px}nav a:hover{background:#d7edb8}
+main{max-width:1100px;margin:28px auto;padding:0 18px 50px}.hero{text-align:center;margin:22px auto 28px;max-width:760px}.hero h2{font-size:clamp(26px,4vw,40px);color:var(--green);margin:0 0 8px}.hero p{color:var(--muted);line-height:1.55;margin:0}
+.layout{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(320px,1.1fr);gap:20px;align-items:start}.card{background:var(--cream);border:1.5px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.card h3{color:var(--green);font-size:21px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.45}
+label{display:block;font-weight:700;font-size:14px;margin:13px 0 6px}input,select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font:inherit;color:var(--ink);outline:none}input:focus,select:focus{border-color:var(--green2);box-shadow:0 0 0 3px #6aa84f22}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.full{grid-column:1/-1}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:7px}.check{display:flex;align-items:center;gap:8px;background:#f3f7e9;border-radius:11px;padding:9px;font-size:13px}.check input{width:auto;accent-color:var(--green)}
+button{border:0;border-radius:14px;background:var(--green);color:white;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;width:100%;margin-top:18px;transition:.2s}button:hover{background:#397d37;transform:translateY(-1px)}button.secondary{background:#e5f1d4;color:var(--green);border:1px solid var(--line)}
+.results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:17px}.metric{background:#eef6df;border-radius:17px;padding:15px}.metric span{display:block;color:var(--muted);font-size:12px;font-weight:700}.metric strong{display:block;font-size:25px;color:var(--green);margin:4px 0}.metric small{color:var(--muted)}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin:14px 0 0}.hidden{display:none}.status{background:#f5f7e9;padding:12px 14px;border-radius:13px;margin-top:12px;font-size:14px;line-height:1.5}
+.meal .kcal{display:inline-block;color:var(--muted);font-size:12px;font-weight:700;margin-left:6px}
+.menu-section{margin-top:28px}.menu-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px}.menu-head h3{margin:0;color:var(--green);font-size:25px}.menu-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.day{background:var(--cream);border:1.5px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow)}.day h4{margin:0 0 10px;color:var(--green);font-size:18px}.meal{padding:9px 0;border-top:1px solid #edf0e3;font-size:13px;line-height:1.45}.meal b{display:block;color:#477044;font-size:12px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}.meal em{display:block;color:#788477;font-style:normal;font-size:12px;margin-top:3px}
+.tag{display:inline-block;background:#e5f2cf;color:#396d34;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800}
+.menu-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.menu-controls .card{padding:15px}.menu-controls label{margin-top:0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.days{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}nav{width:100%}.fields{grid-template-columns:1fr 1fr}.menu-controls{grid-template-columns:1fr}}
+:root{--green:#205b31;--green2:#398044;--lime:#c8e889;--pale:#f0f7d9;--cream:#fffef0;--ink:#243d2b;--muted:#6d7d69;--line:#c8dcae;--shadow:0 6px 0 #dce8c8;--coral:#e78b70;--gold:#e7c45c;--sky:#83bdca}
+body{min-height:100vh;background:#f2f6dc;color:var(--ink);font-family:"Trebuchet MS",ui-rounded,system-ui,sans-serif;padding-bottom:90px}
+.app-header{max-width:520px;margin:auto;padding:12px 18px 6px;background:#f2f6dc;border:0}
+.app-header .top{position:relative;max-width:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.app-header .brand{gap:8px;text-decoration:none}
+.app-header .brand h1{margin:0;color:var(--green);font-family:"Arial Rounded MT Bold","Trebuchet MS",ui-rounded,sans-serif;font-size:24px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;text-shadow:1px 2px 0 #c8e889}
+.app-header .brand p{font-size:11px}
+.broki-symbols{position:absolute;width:0;height:0;overflow:hidden}
+.app-header .mascot{display:grid;place-items:center;width:40px;height:44px;position:relative}
+.app-header .mascot svg{width:38px;height:44px}
+.icon-link{display:grid;place-items:center;width:40px;height:40px;color:var(--green);font-size:28px;font-weight:800;text-decoration:none;border-radius:50%}
+.icon-link:last-child{position:absolute;right:0;font-size:32px}
+main{max-width:520px;margin:0 auto;padding:10px 16px 110px;display:flex;flex-direction:column;gap:18px}
+.view-hidden{display:none!important}
+.hero{order:1;position:relative;text-align:left;margin:0;max-width:none;padding:15px 14px 14px}
+.home-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 2px 0}
+.home-shortcuts a{display:flex;min-height:45px;align-items:center;justify-content:center;gap:7px;padding:9px 10px;border:1px solid #d5e1c2;border-radius:15px;background:#fffef4;color:#315d34;text-decoration:none;font-size:12px;font-weight:800;box-shadow:0 3px 0 #dce8c8;transition:transform .18s ease,background .18s ease}
+.home-shortcuts a:active{transform:translateY(2px);box-shadow:none}
+.home-food{margin:18px 0 0}
+.home-food-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:0 2px 10px}
+.home-food-heading p{margin:0 0 3px;color:#7a8a62;font-size:9px;font-weight:900;letter-spacing:1px}
+.home-food-heading h3{margin:0;color:var(--green);font-size:20px}
+.food-count{padding:5px 9px;border-radius:14px;background:#e6f0cf;color:#547246;font-size:10px;font-weight:800;white-space:nowrap}
+.home-food-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.food-card{min-width:0;overflow:hidden;border:1px solid #d3dec2;border-radius:10px;background:#fffef4;box-shadow:0 4px 0 #dfe8cf}
+.food-card:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 5px);justify-self:center}
+.food-card img{display:block;width:100%;aspect-ratio:1.28;object-fit:cover;background:#edf1df}
+.food-card h4{margin:0;padding:9px 10px 10px;color:#315d34;font-size:13px;line-height:1.2}
+.food-gallery-credits{margin:10px 2px 0;color:#77836e;font-size:9px;line-height:1.45}
+.food-gallery-credits a{color:inherit;text-decoration:underline;text-decoration-color:#c3ceb2;text-underline-offset:2px}
+.hero-banner{position:relative;min-height:145px;display:flex;align-items:center;justify-content:flex-start;text-align:left;padding:20px 98px 20px 18px;border:3px solid #d5eab0;border-radius:35px;background:#deefba;box-shadow:inset 0 0 0 5px #eff7d8}
+.hero-copy{max-width:220px}
+.hero-copy p{margin:0 0 4px;color:#50783a;font-size:10px;font-weight:900;letter-spacing:1px}
+.hero h2{margin:0;color:var(--green);font-size:24px;line-height:1.04}
+.hero-copy strong{display:block;color:#315d34;font-size:16px;margin-top:7px}
+.hero-character{position:absolute;right:4px;top:8px;width:98px;height:132px;filter:drop-shadow(0 5px 0 #a9cb76);transform:rotate(5deg)}
+.hero-avatar{width:100%;height:100%}
+.faith-pill{margin-top:12px;padding:10px 14px;border-radius:22px;background:#e4f2c6;text-align:center;color:#315e35;font-size:14px;font-weight:800}
+.faith-pill small{display:block;font-size:11px;margin-top:3px;font-weight:700}
+.menu-section{order:2;margin:0;padding:0 2px}
+.menu-head{align-items:center;margin:0 2px 12px}
+.menu-head h3{font-size:23px;color:var(--green)}
+.menu-head p{font-size:12px;line-height:1.4}
+.tag{white-space:nowrap;border-radius:16px;font-size:10px;background:#dceeb7;color:#386b38}
+.status{border:1px solid #dce9c7;background:#faffef;border-radius:18px;padding:11px 13px;font-size:12px}
+.status-avatar{display:block;width:28px;height:34px;flex:none}
+#emptyState{display:flex;align-items:center;gap:8px}
+.day-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:12px 0}
+.day-tab{margin:0;width:100%;padding:8px 2px;border-radius:14px;background:#e4edcf;color:#486b43;border:1px solid transparent;font-size:11px}
+.day-tab[aria-pressed="true"]{background:var(--green);color:white;box-shadow:0 3px 0 #c6d9a8}
+.days{display:flex;flex-direction:column;gap:10px}
+.day{display:none;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none}
+.day.active{display:block;animation:arrive .24s ease-out}
+.day h4{margin:0 0 10px 3px;color:#587a47;font-size:14px}
+.meal-card{min-height:99px;display:grid;grid-template-columns:70px minmax(0,1fr) 24px;align-items:center;gap:10px;margin:0 0 10px;padding:9px 10px;border:1.5px solid #c8d9af;border-radius:24px;background:#fffef2;box-shadow:var(--shadow)}
+.meal-art{position:relative;display:grid;place-items:center;min-height:72px;border-radius:18px;background:#eef5d9}
+.broki-mini{display:block;width:52px;height:66px;filter:drop-shadow(0 3px 0 #c6d99c)}
+.food-icon{position:absolute;right:-2px;bottom:0;font-size:23px;filter:drop-shadow(0 2px 0 #e1e9ce)}
+.meal-copy{min-width:0;font-size:13px;line-height:1.3}
+.meal-copy b{display:inline-block;margin:0 0 5px;padding:5px 11px;border-radius:20px;background:#d5eda4;color:#285d32;font-size:13px;text-transform:none;letter-spacing:0}
+.meal-name{overflow-wrap:anywhere;font-weight:500}
+.meal-copy em{display:block;margin-top:4px;color:#71806c;font-size:11px;font-style:normal}
+.meal .kcal{display:inline-block;margin-left:4px;color:#315c36;font-size:11px;font-weight:900;white-space:nowrap}
+.meal-arrow{display:grid;place-items:center;width:30px;height:30px;min-height:30px;flex:none;margin:0;padding:0;border:0;border-radius:50%;background:#d9ecb4;color:var(--green);font-size:22px;font-weight:900;transition:transform .18s ease,background .18s ease}
+.meal-arrow:hover{background:#c8e295;color:var(--green)}
+.meal-arrow[aria-expanded="true"]{transform:rotate(90deg);background:#f1d29a;color:#684f22}
+.meal-details{grid-column:1/-1;width:100%;margin-top:0;padding:11px 2px 2px;border-top:1px solid #e2e8d5;animation:arrive .18s ease-out}
+.meal-details[hidden]{display:none}
+.meal-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.meal-detail{min-width:0;padding:9px 10px;border-radius:12px;background:#f1f5e5}
+.meal-detail span{display:block;margin-bottom:3px;color:#77836d;font-size:10px;font-weight:700}
+.meal-detail strong{display:block;color:#365b36;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.meal-details p{margin:9px 2px 1px;color:#687765;font-size:11px;line-height:1.4}
+.layout{order:4;grid-template-columns:1fr;gap:14px;margin:0}
+.card{padding:18px;border-radius:23px;border:1px solid #cfddbb;background:#fffef4;box-shadow:0 5px 0 #dfe9cf}
+.card h3{font-size:19px}
+.sub{font-size:12px;margin-bottom:12px}
+#preferencias{order:5;margin:0!important}
+#vestir{order:3;margin:0}
+.dressup-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.dressup-head h3{margin:0 0 4px}
+.dressup-head p{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.4}
+.game-spark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:#fff0c6;color:#ae7b2c;font-size:23px}
+.avatar-stage{position:relative;display:grid;place-items:center;min-height:252px;overflow:hidden;border:1px solid #d5dfc2;border-radius:22px;background:repeating-linear-gradient(135deg,#f4f4df 0 16px,#edf3d7 16px 32px)}
+.avatar-stage::after{content:"";position:absolute;bottom:18px;width:134px;height:20px;border-radius:50%;background:#c9d6aa;opacity:.65}
+.broki-doll{position:relative;z-index:1;width:168px;height:226px;transform-origin:center bottom;--broki-shirt:#70b84e}
+.broki-doll.pop{animation:brokiPop .32s ease-out}
+.avatar-broccoli{position:absolute;z-index:2;top:4px;left:1px;width:166px;height:206px;filter:drop-shadow(0 4px 0 #b6d28e)}
+.broki-svg{display:block;width:100%;height:100%;overflow:visible}
+.avatar-hat{position:absolute;z-index:4;top:0;left:57px;font-size:43px;line-height:1;filter:drop-shadow(0 2px 0 #c6d6a8)}
+.avatar-accessory{position:absolute;z-index:4;font-size:33px;line-height:1;filter:drop-shadow(0 2px 0 #b5c995);pointer-events:none;transition:top .18s ease,left .18s ease,transform .18s ease}
+.avatar-accessory.position-face{top:75px;left:59px}
+.avatar-accessory.position-neck{top:111px;left:68px;font-size:31px}
+.avatar-accessory.position-side{top:127px;left:123px;font-size:29px;transform:rotate(12deg)}
+.avatar-name{position:absolute;z-index:2;top:214px;left:0;width:100%;text-align:center;color:#40633b;font-size:12px;font-weight:900}
+.look-message{min-height:34px;margin:10px 0 12px;padding:8px 11px;border-radius:12px;background:#eef5d9;color:#41603c;font-size:12px;font-weight:700;text-align:center}
+.wardrobe-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px;border-radius:15px;background:#edf2df}
+.wardrobe-tab{width:auto;min-height:38px;margin:0;padding:8px 5px;border:1px solid transparent;border-radius:12px;background:transparent;color:#5a7050;font-size:12px}
+.wardrobe-tab[aria-selected="true"]{background:#fffef4;color:var(--green);border-color:#d6e2c5;box-shadow:0 2px 0 #dce7ca}
+.wardrobe-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
+.wardrobe-options[hidden]{display:none}
+.wardrobe-option{width:auto;min-width:0;min-height:64px;margin:0;padding:7px 3px;border:1.5px solid #d8e3c9;border-radius:14px;background:#fffef4;color:#415c3a;font-size:11px}
+.wardrobe-option span{display:grid;place-items:center;min-height:26px;font-size:22px}
+.wardrobe-option[aria-pressed="true"]{border-color:#6a9c51;background:#eaf4d6;box-shadow:0 3px 0 #d2e2bc;transform:translateY(-2px)}
+.wardrobe-option:active,.wardrobe-tab:active{transform:scale(.96)}
+.swatch{width:24px;height:24px;margin:1px auto 3px;border:2px solid #ffffff;border-radius:50%;box-shadow:0 0 0 1px #b7c8a4}
+.game-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.game-actions button{width:auto;margin:0;padding:10px 8px;border-radius:14px;font-size:12px}
+.game-actions .secondary{background:#f9e3da;color:#9b503e;border-color:#efc9ba}
+.fields{grid-template-columns:1fr 1fr;gap:0 10px}
+.checks{grid-template-columns:1fr 1fr}
+input,select{border-radius:14px;background:#fff;padding:11px;font-size:14px}
+button{border-radius:16px}
+.bottom-nav{position:fixed;z-index:5;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,520px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;gap:4px;padding:8px 9px max(9px,env(safe-area-inset-bottom));border-top:1px solid #c9dcb0;background:#f5f8e6ef;backdrop-filter:blur(12px)}
+.nav-side{display:contents;min-width:0}
+.nav-left,.nav-right{grid-column:auto}
+.nav-left a:first-child{grid-column:1}
+.nav-left a:last-child{grid-column:2}
+.nav-right a:first-child{grid-column:4}
+.nav-right a:last-child{grid-column:5}
+.bottom-nav a{position:relative;display:flex;width:100%;min-width:0;min-height:60px;flex:none;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 2px 4px;border-radius:18px;color:#59744c;text-decoration:none;font-size:10px;font-weight:800;transition:transform .18s ease,background .18s ease,box-shadow .18s ease;-webkit-tap-highlight-color:transparent}
+.bottom-nav a span{display:grid;place-items:center;width:35px;height:35px;border-radius:13px;background:#e5eed3;color:#446e3f;font-size:22px;line-height:1;transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+.nav-left a[aria-current="page"],.nav-right a[aria-current="page"]{background:#e5f1cd;color:var(--green);box-shadow:inset 0 0 0 1px #cadcae}
+.nav-left a:first-child span{background:#e4eed0;color:#446e3f}
+.nav-left a:last-child span{background:#fff0c6;color:#96732e}
+.nav-right a span{background:#fae3d9;color:#a85943}
+.broccoli-silhouette{display:block;width:24px;height:24px}
+.nav-side a[aria-current="page"] span{transform:translateY(-2px);box-shadow:0 3px 0 #d3ddbd}
+.bottom-nav .home-link{grid-column:3;justify-self:center;width:100%;min-height:70px;flex:none;margin:-14px 0 0;border-radius:21px;background:var(--green);color:white;box-shadow:0 6px 0 #aec882;transform:translateY(-4px)}
+.bottom-nav .home-link span{width:44px;height:44px;border-radius:16px;background:#d3ec9f;color:var(--green);font-size:28px;box-shadow:0 3px 0 #afcc7b}
+.bottom-nav .home-link[aria-current="page"]{background:#205b31;box-shadow:0 7px 0 #aec882}
+.bottom-nav .home-link[aria-current="page"] span{background:#d3ec9f}
+.nav-right a{max-width:none;width:100%;flex:none}
+.bottom-nav a:active{transform:translateY(2px) scale(.96)}
+.bottom-nav a:focus-visible{outline:3px solid #79a744;outline-offset:2px}
+.meal-card:nth-child(5n+2) .meal-art{background:#f9e9df}
+.meal-card:nth-child(5n+3) .meal-art{background:#e0f0ef}
+.meal-card:nth-child(5n+4) .meal-art{background:#fff1ca}
+.meal-card:nth-child(5n) .meal-art{background:#e9e3f1}
+.meal-card:nth-child(5n+2) .food-icon{background:#f5d6c9}
+.meal-card:nth-child(5n+3) .food-icon{background:#c7e4dc}
+.meal-card:nth-child(5n+4) .food-icon{background:#f4df9c}
+.meal-card:nth-child(5n) .food-icon{background:#d7cde8}
+@media(prefers-reduced-motion:reduce){.bottom-nav a,.bottom-nav a span{transition:none}.broki-doll.pop{animation:none}}
+footer{max-width:520px;margin:0 auto;color:#71806c;padding:22px 10px 102px}
+@keyframes arrive{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes brokiPop{0%{transform:scale(.94) rotate(-2deg)}55%{transform:scale(1.05) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+@media(min-width:761px){body{background:#e8efd9}.app-header{padding-top:18px}main{padding-top:14px}.hero-banner{min-height:160px}.hero h2{font-size:31px}}
+</style>
+</head>
+<body>
+<svg class="broki-symbols" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><symbol id="broki-avatar" viewBox="0 0 180 220"><ellipse cx="90" cy="207" rx="48" ry="7" fill="#b7ca94" opacity=".55"/><g stroke="#286739" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M77 150 69 184q2 8 13 6l12-38M103 150l8 34q-2 8-13 6l-12-38" fill="#a8d95b"/><path d="M65 185q-12 8-4 14 12 5 23-2l1-8M115 185q12 8 4 14-12 5-23-2l-1-8" fill="#347d3f"/><path d="M57 115q-18 2-23 23-2 8 6 10 8 1 13-11l13-8M123 115q18 2 23 23 2 8-6 10-8 1-13-11l-13-8" fill="none" stroke="#8ed14d" stroke-width="12"/><path d="M62 72q28 13 56 0l-5 67q-23 14-46 0z" fill="#a8df59"/><path class="broki-shirt" d="M61 117q29 14 58 0l-4 32q-25 13-50 0z" fill="var(--broki-shirt,#70b84e)"/></g><g stroke="#286739" stroke-width="4"><circle cx="58" cy="52" r="26" fill="#31983e"/><circle cx="87" cy="36" r="29" fill="#278b39"/><circle cx="119" cy="52" r="27" fill="#359c3e"/><circle cx="72" cy="27" r="24" fill="#43a83f"/><circle cx="105" cy="25" r="25" fill="#36a044"/><circle cx="88" cy="56" r="28" fill="#73c84b"/></g><g fill="#a7e363"><circle cx="54" cy="42" r="5"/><circle cx="80" cy="22" r="5"/><circle cx="112" cy="43" r="5"/><circle cx="94" cy="51" r="4"/></g><g><circle cx="79" cy="86" r="4" fill="#173e29"/><circle cx="101" cy="86" r="4" fill="#173e29"/><circle cx="67" cy="94" r="5" fill="#f28f86"/><circle cx="113" cy="94" r="5" fill="#f28f86"/><path d="M82 95q8 9 16 0" fill="none" stroke="#173e29" stroke-width="3.5" stroke-linecap="round"/></g></symbol></svg>
+<header class="app-header" id="inicio"><div class="top"><a class="brand" href="#inicio"><div class="mascot" aria-hidden="true"><svg class="broki-svg" viewBox="0 0 180 220"><use href="#broki-avatar"></use></svg></div><div><h1>BROKI</h1><p>Pequeños hábitos, grandes cambios</p></div></a><a class="icon-link" href="#preferencias" aria-label="Ir a mis gustos">♡</a></div></header>
+<main>
+<section class="hero" id="home"><div class="hero-banner"><div class="hero-copy"><p>MI PLAN PERSONALIZADO</p><h2>Plan alimenticio</h2><strong>Tu bienestar, paso a paso</strong></div><div class="hero-character" aria-hidden="true"><svg class="hero-avatar" viewBox="0 0 180 220"><use href="#broki-avatar"></use></svg></div></div><div class="faith-pill">Cuida tu cuerpo, alimenta tu fe ♡<small>1 Corintios 10:31</small></div><div class="home-shortcuts"><a href="#menu"><span aria-hidden="true">▦</span>Ver mi plan</a><a href="#vestir"><span aria-hidden="true">✿</span>Vestir a Broki</a></div><div class="home-food"><div class="home-food-heading"><div><p>SABORES DE BOLIVIA</p><h3>Rico y de aquí</h3></div><span class="food-count">3 ideas</span></div><div class="home-food-grid"><article class="food-card food-card-featured"><img src="assets/food/trucha-a-la-plancha.jpg" alt="Trucha a la plancha servida con ensalada y arroz" fetchpriority="high"><div class="food-copy"><h4>Trucha a la plancha</h4><p>Un plato del altiplano con verduras frescas.</p><a class="food-credit" href="https://commons.wikimedia.org/wiki/File:Trucha_a_la_plancha.jpg" target="_blank" rel="noopener">Foto: Q'orikenti · CC BY-SA 4.0 · recortada</a></div></article><article class="food-card"><img src="assets/food/sopa-de-quinua.jpg" alt="Sopa boliviana de quinua con hierbas frescas" loading="lazy"><div class="food-copy"><h4>Sopa de quinua</h4><p>Quinua y hierbas en un plato tradicional.</p><a class="food-credit" href="https://commons.wikimedia.org/wiki/File:Sopa_de_Quinua,_plato_t%C3%ADpico_boliviano.jpg" target="_blank" rel="noopener">Foto: Q'orikenti · CC BY-SA 4.0 · recortada</a></div></article><article class="food-card"><img src="assets/food/ensalada-de-quinua.jpeg" alt="Ensalada de quinua con tomate, maíz y legumbres" loading="lazy"><div class="food-copy"><h4>Ensalada de quinua</h4><p>Grano andino con vegetales y legumbres.</p><a class="food-credit" href="https://commons.wikimedia.org/wiki/File:Quinoa_Salad_(140491457).jpeg" target="_blank" rel="noopener">Foto: J. Doll · CC BY 3.0 · recortada</a></div></article></div></div></section>
+<div class="layout">
+<section class="card" id="calculadora"><h3>🌿 1. Tus datos</h3><p class="sub">Para menores usa curvas OMS de crecimiento; desde los 18 años se muestran estimaciones para adultos.</p>
+<form id="profileForm"><div class="fields">
+<div><label for="age">Edad (años) *</label><input id="age" type="number" min="0" max="100" step="1" placeholder="Ej. 12" required></div>
+<div><label for="sex">Sexo de referencia *</label><select id="sex" required><option value="">Seleccionar</option><option value="female">Femenino</option><option value="male">Masculino</option></select></div>
+<div id="ageMonthsField"><label for="ageMonths">Meses adicionales (solo menores de 18)</label><select id="ageMonths"><option value="0">0 meses</option><option value="1">1 mes</option><option value="2">2 meses</option><option value="3">3 meses</option><option value="4">4 meses</option><option value="5">5 meses</option><option value="6">6 meses</option><option value="7">7 meses</option><option value="8">8 meses</option><option value="9">9 meses</option><option value="10">10 meses</option><option value="11">11 meses</option></select></div>
+<div><label for="weight">Peso (kg) *</label><input id="weight" type="number" min="2" max="300" step=".1" placeholder="Ej. 65" required></div>
+<div><label id="heightLabel" for="height">Estatura (cm) *</label><input id="height" type="number" min="45" max="230" step=".1" placeholder="Ej. 165" required></div>
+<div class="full" id="activityField"><label for="activity">Nivel de actividad *</label><select id="activity" required><option value="">Seleccionar</option><option value="1.2">Sedentario (poco o ningún ejercicio)</option><option value="1.375">Ligero (1–3 días por semana)</option><option value="1.55">Moderado (3–5 días por semana)</option><option value="1.725">Alto (6–7 días por semana)</option><option value="1.9">Muy alto (entrenamiento intenso o trabajo físico)</option></select></div>
+<div class="full" id="goalField"><label for="goal">¿Cuál es tu objetivo? *</label><select id="goal" required><option value="maintain">Mantener mi peso y sentirme bien</option><option value="habits">Mejorar mis hábitos alimenticios</option><option value="lose">Quiero bajar de peso gradualmente</option><option value="gain">Quiero subir de peso gradualmente</option></select></div>
+</div>
+<button type="submit">Calcular y personalizar mi menú ✨</button></form>
+<p class="note">En menores, el resultado usa las curvas OMS de IMC-para-la-edad y no calcula calorías ni prescribe cambios de peso. En adultos se usa Mifflin–St Jeor.</p></section>
+<section class="card" id="resultCard"><h3>📊 2. Tus resultados</h3><p class="sub">La interpretación cambia según la edad; en menores se compara el IMC con referencias de crecimiento.</p>
+<div id="emptyState" class="status"><svg class="status-avatar" viewBox="0 0 180 220" aria-hidden="true"><use href="#broki-avatar"></use></svg>Completa tus datos para ver la evaluación correspondiente a tu edad.</div>
+<div id="results" class="hidden"><div class="results">
+<div class="metric adult-only"><span>Tasa metabólica basal</span><strong id="bmr">—</strong><small>kcal/día en reposo</small></div>
+<div class="metric"><span>Índice de masa corporal</span><strong id="bmi">—</strong><small id="bmiLabel">—</small></div>
+<div class="metric adult-only"><span>Gasto diario estimado</span><strong id="tdee">—</strong><small>kcal/día aproximadas</small></div>
+<div class="metric adult-only"><span>Orientación del menú</span><strong id="target" style="font-size:19px">—</strong><small id="goalLabel">—</small></div>
+<div id="childMetric" class="metric hidden"><span>Curva OMS: IMC para la edad</span><strong id="bmiZ">—</strong><small id="growthLabel">—</small></div></div><div id="bmiNote" class="status"></div></div>
+<p class="note">La OMS recomienda interpretar el crecimiento con contexto clínico y mediciones sucesivas. <a href="https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age" target="_blank" rel="noopener">Fuente: estándares OMS</a>.</p></section>
+</div>
+
+<section class="card" id="preferencias" style="margin-top:22px"><h3>💚 3. Tus gustos y presupuesto</h3><p class="sub">Así Broki podrá elegir recetas más cercanas a lo que disfrutas y a lo que puedes gastar.</p>
+<div class="fields">
+<div><label for="diet">Tipo de alimentación</label><select id="diet"><option value="all">Como de todo</option><option value="vegetarian">Vegetariana</option><option value="noPork">No consumo cerdo</option><option value="noFish">No consumo pescado</option></select></div>
+<div><label for="budget">Presupuesto aproximado por día</label><select id="budget"><option value="low">Económico: hasta Bs 25</option><option value="mid" selected>Moderado: Bs 25–45</option><option value="high">Flexible: más de Bs 45</option></select></div>
+<div class="full"><label>¿Qué alimentos te gustan? (puedes elegir varios)</label><div class="checks">
+<label class="check"><input type="checkbox" name="likes" value="chicken" checked> Pollo</label><label class="check"><input type="checkbox" name="likes" value="eggs" checked> Huevos</label><label class="check"><input type="checkbox" name="likes" value="legumes" checked> Lentejas y porotos</label><label class="check"><input type="checkbox" name="likes" value="fish"> Pescado</label><label class="check"><input type="checkbox" name="likes" value="beef"> Carne de res</label><label class="check"><input type="checkbox" name="likes" value="dairy" checked> Leche y yogur</label><label class="check"><input type="checkbox" name="likes" value="vegetables" checked> Verduras</label><label class="check"><input type="checkbox" name="likes" value="fruit" checked> Frutas</label></div></div>
+<div class="full"><label for="dislikes">¿Qué alimentos no te gustan?</label><input id="dislikes" placeholder="Ej. cebolla, pescado, brócoli..."></div>
+<div class="full"><label for="allergies">Alergias o intolerancias (si tienes)</label><input id="allergies" placeholder="Ej. maní, leche, huevo..."></div>
+</div>
+<button id="generate" type="button">Crear mi menú según mis gustos 🥗</button>
+<p class="note">El presupuesto es una categoría orientativa, no un precio garantizado. Los costos varían según ciudad, temporada, mercado y tamaño de las porciones.</p>
+</section>
+
+<section class="menu-section" id="menu"><div class="menu-head"><div><h3>Tu plan de comidas</h3><p id="menuIntro">Completa tus datos para ver un plan adaptado a ti.</p></div><span class="tag">7 días</span></div>
+<div id="menuNotice" class="status">Broki está listo para armar tu semana. Calcula tu perfil y preferencias para comenzar.</div>
+<div class="day-tabs hidden" id="dayTabs" aria-label="Días de la semana"></div>
+<div class="days" id="days"><article class="meal-card"><div class="meal-art"><span class="broki-mini" aria-hidden="true">🥦<i>•ᴗ•</i></span><span class="food-icon" aria-hidden="true">🍳</span></div><div class="meal-copy"><b>Desayuno</b><div class="meal-name">Tu primera idea de la semana</div><em>Personaliza tu plan para ver la sugerencia.</em></div><span class="meal-arrow" aria-hidden="true">›</span></article><article class="meal-card"><div class="meal-art"><span class="broki-mini" aria-hidden="true">🥦<i>•ᴗ•</i></span><span class="food-icon" aria-hidden="true">🍎</span></div><div class="meal-copy"><b>Media mañana</b><div class="meal-name">Algo rico para seguir</div><em>Una opción aparecerá al generar tu menú.</em></div><span class="meal-arrow" aria-hidden="true">›</span></article><article class="meal-card"><div class="meal-art"><span class="broki-mini" aria-hidden="true">🥦<i>•ᴗ•</i></span><span class="food-icon" aria-hidden="true">🥗</span></div><div class="meal-copy"><b>Almuerzo</b><div class="meal-name">Tu comida principal</div><em>Ideas según tus gustos y presupuesto.</em></div><span class="meal-arrow" aria-hidden="true">›</span></article><article class="meal-card"><div class="meal-art"><span class="broki-mini" aria-hidden="true">🥦<i>•ᴗ•</i></span><span class="food-icon" aria-hidden="true">🥛</span></div><div class="meal-copy"><b>Merienda</b><div class="meal-name">Una pausa para recargar</div><em>Personaliza tu plan para ver la sugerencia.</em></div><span class="meal-arrow" aria-hidden="true">›</span></article><article class="meal-card"><div class="meal-art"><span class="broki-mini" aria-hidden="true">🥦<i>•ᴗ•</i></span><span class="food-icon" aria-hidden="true">🥣</span></div><div class="meal-copy"><b>Cena</b><div class="meal-name">Cierra el día a tu manera</div><em>Opciones generales, sin prescripción médica.</em></div><span class="meal-arrow" aria-hidden="true">›</span></article></div></section>
+<section class="card dressup-section" id="vestir"><div class="dressup-head"><div><h3>Viste a Broki</h3><p>Combina accesorios y colores para crear su look.</p></div><span class="game-spark" aria-hidden="true">✦</span></div>
+<div class="avatar-stage"><div class="broki-doll" id="brokiDoll" role="img" aria-label="Broki con su atuendo actual"><span class="avatar-hat" id="avatarHat"></span><svg class="broki-svg avatar-broccoli" viewBox="0 0 180 220" aria-hidden="true"><use href="#broki-avatar"></use></svg><span class="avatar-accessory" id="avatarAccessory" aria-hidden="true"></span><span class="avatar-name">Broki</span></div></div>
+<p id="lookMessage" class="look-message" aria-live="polite">¡Broki está listo para probarse un look!</p>
+<div class="wardrobe-tabs" role="tablist" aria-label="Categorías de vestuario"><button class="wardrobe-tab" type="button" role="tab" aria-selected="true" data-wardrobe="hat">Gorros</button><button class="wardrobe-tab" type="button" role="tab" aria-selected="false" data-wardrobe="accessory">Accesorios</button><button class="wardrobe-tab" type="button" role="tab" aria-selected="false" data-wardrobe="shirt">Ropa</button></div>
+<div class="wardrobe-options" role="group" aria-label="Gorros"><button class="wardrobe-option" type="button" data-kind="hat" data-value="" data-label="Sin gorro" data-default="true" aria-pressed="true"><span>😊</span>Natural</button><button class="wardrobe-option" type="button" data-kind="hat" data-value="👑" data-label="Corona" aria-pressed="false"><span>👑</span>Corona</button><button class="wardrobe-option" type="button" data-kind="hat" data-value="🧢" data-label="Gorra" aria-pressed="false"><span>🧢</span>Gorra</button><button class="wardrobe-option" type="button" data-kind="hat" data-value="🌼" data-label="Flor" aria-pressed="false"><span>🌼</span>Flor</button></div>
+<div class="wardrobe-options" role="group" aria-label="Accesorios" data-wardrobe-panel="accessory" hidden><button class="wardrobe-option" type="button" data-kind="accessory" data-value="" data-label="Sin accesorio" data-position="face" data-default="true" aria-pressed="true"><span>🙂</span>Ninguno</button><button class="wardrobe-option" type="button" data-kind="accessory" data-value="🕶️" data-label="Gafas de sol" data-position="face" aria-pressed="false"><span>🕶️</span>Gafas</button><button class="wardrobe-option" type="button" data-kind="accessory" data-value="🎀" data-label="Lazo" data-position="neck" aria-pressed="false"><span>🎀</span>Lazo</button><button class="wardrobe-option" type="button" data-kind="accessory" data-value="⭐" data-label="Estrella" data-position="side" aria-pressed="false"><span>⭐</span>Estrella</button></div>
+<div class="wardrobe-options" role="group" aria-label="Colores de ropa" data-wardrobe-panel="shirt" hidden><button class="wardrobe-option" type="button" data-kind="shirt" data-value="#70b84e" data-label="Verde" data-default="true" aria-pressed="true"><span class="swatch" style="background:#70b84e"></span>Verde</button><button class="wardrobe-option" type="button" data-kind="shirt" data-value="#e78b70" data-label="Coral" aria-pressed="false"><span class="swatch" style="background:#e78b70"></span>Coral</button><button class="wardrobe-option" type="button" data-kind="shirt" data-value="#83bdca" data-label="Celeste" aria-pressed="false"><span class="swatch" style="background:#83bdca"></span>Celeste</button><button class="wardrobe-option" type="button" data-kind="shirt" data-value="#e7c45c" data-label="Amarillo" aria-pressed="false"><span class="swatch" style="background:#e7c45c"></span>Amarillo</button></div>
+<div class="game-actions"><button id="surpriseOutfit" type="button">✦ Sorpréndeme</button><button id="resetOutfit" class="secondary" type="button">↺ Reiniciar</button></div></section>
+</main>
+<nav class="bottom-nav" aria-label="Navegación principal"><div class="nav-side nav-left"><a href="#menu"><span aria-hidden="true">▦</span>Mi plan</a><a href="#calculadora"><span aria-hidden="true">▥</span>Tus Datos</a></div><a class="home-link" href="#home" aria-current="page"><span aria-hidden="true">⌂</span>Inicio</a><div class="nav-side nav-right"><a href="#vestir"><span aria-hidden="true">✿</span>Vestir</a><a href="#preferencias"><span aria-hidden="true"><svg class="broccoli-silhouette" viewBox="0 0 32 32"><path fill="currentColor" d="M10 16.2c-3.4 0-5.7-2.1-5.7-4.9 0-2.5 2-4.5 4.6-4.7.9-2.2 3.2-3.6 6-3.6 2.6 0 4.8 1.4 5.8 3.5.8-.5 1.8-.8 2.8-.8 3.5 0 6 2.7 6 6.1 0 3.3-2.6 5.8-5.9 5.8-.8 0-1.5-.1-2.1-.4v11.1h-9.8V17c-.6-.2-1.2-.5-1.7-.8z"/></svg></span>Tus Gustos</a></div></nav>
+<footer>Hecho con cariño por Broki · Cuida tu cuerpo, alimenta tu fe.</footer>
+<script>
+let profile=null;
+const $=id=>document.getElementById(id);
+const avatarMarkup='<svg class="broki-svg broki-mini" viewBox="0 0 180 220" aria-hidden="true" focusable="false"><use href="#broki-avatar"></use></svg>';
+const homeFoodGrid=document.querySelector(".home-food-grid");
+homeFoodGrid.innerHTML=`
+ <article class="food-card"><img src="assets/food/trucha-a-la-plancha.jpg" alt="Trucha a la plancha servida con ensalada y arroz" fetchpriority="high"><h4>Trucha a la plancha</h4></article>
+ <article class="food-card"><img src="assets/food/sopa-de-quinua.jpg" alt="Sopa boliviana de quinua con hierbas frescas" loading="lazy"><h4>Sopa de quinua</h4></article>
+ <article class="food-card"><img src="assets/food/ensalada-de-quinua.jpeg" alt="Ensalada de quinua con tomate, maíz y legumbres" loading="lazy"><h4>Ensalada de quinua</h4></article>
+ <article class="food-card"><img src="assets/food/sopa-de-mani.jpg" alt="Sopa de maní boliviana servida con papas" loading="lazy"><h4>Sopa de maní</h4></article>
+ <article class="food-card"><img src="assets/food/chairo-paceno.jpg" alt="Chairo paceño, sopa tradicional de La Paz" loading="lazy"><h4>Chairo paceño</h4></article>`;
+document.querySelector(".food-count").textContent="5 platos";
+const foodCredits=document.createElement("p");
+foodCredits.className="food-gallery-credits";
+foodCredits.innerHTML=`Créditos: <a href="https://commons.wikimedia.org/wiki/File:Trucha_a_la_plancha.jpg" target="_blank" rel="noopener">Q'orikenti, CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Sopa_de_Quinua,_plato_t%C3%ADpico_boliviano.jpg" target="_blank" rel="noopener">Q'orikenti, CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Quinoa_Salad_(140491457).jpeg" target="_blank" rel="noopener">J. Doll, CC BY 3.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Sopa_de_Man%C3%AD_de_Bolivia.jpg" target="_blank" rel="noopener">Bolivia Photos, CC BY-SA 2.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Chairo_pace%C3%B1o_(37949536302)_(cropped).jpg" target="_blank" rel="noopener">Dan Lundberg, CC BY-SA 2.0</a>. Imágenes redimensionadas y recortadas para la galería.`;
+homeFoodGrid.after(foodCredits);
+document.querySelectorAll(".broki-mini").forEach(node=>node.outerHTML=avatarMarkup);
+const growthTable=(()=>{
+ const encoded=[
+  "wf8YNF0Az/5fNGAAXAHOOGAAEgFCOloArgCbPV4AbwDDP1cAQQDhP10ACAD/QVUA7P8gQVwAt/8HQ1QA",
+  "qv/GQVsAd/+LQ1MAcP8NQloAQP++Q1IAQP8GQloAEv+xQ1IAFf/HQVkA5/5vQ1EA7/5kQVkAwv4OQ1EA",
+  "zv7sQFkAof6aQlEArv5nQFgAgf4bQlAAkf7mP1gAZf6fQVAAd/5mP1gASv4hQVAAXv7xPlcAMf6rQFAA",
+  "R/6BPlcAGf43QE8AMv4ePlcABP7OP08AHv7DPVcA7/1qP08ACv5uPVcA2/0LP08A+P0kPVYAyf22Pk8A",
+  "5/3hPFYAt/1mPk4A1v2oPFYAp/0gPk4Axv12PFYAlv3hPU4At/1OPFYAh/2pPU4AyP1IPVUAlf2TPk4A",
+  "yP0rPVUAuP1sPk4AyP0PPVQA2v1GPk4AyP30PFQA/P0fPk4AyP3aPFQAG/77PU4AyP3APFQAOf7WPU4A",
+  "yP2oPFQAVP6zPU4AyP2PPFQAb/6QPU8AyP14PFUAhv5vPU8AyP1iPFUAmv5OPU8AyP1MPFUArf4tPU8A",
+  "yP04PFUAvf4OPU8AyP0lPFUAyv7vPE8AyP0UPFYA1P7SPE8AyP0EPFYA2/61PFAAyP31O1cA4P6aPFAA",
+  "yP3oO1cA4f6APFAAyP3bO1gA4P5pPFAAyP3QO1gA3P5SPFEAyP3FO1kA1v49PFEAyP27O1kAzf4qPFEA",
+  "yP2xO1oAwv4XPFEAyP2pO1sAtv4FPFIAyP2iO1sApv70O1IAyP2cO1wAlv7lO1IAyP2YO1wAg/7WO1MA",
+  "yP2UO10Abv7HO1MAyP2SO10AWP65O1MAyP2SO14AP/6sO1QAyP2SO18AJf6fO1QAyP2UO18ACv6TO1UA",
+  "yP2WO2AA7v2IO1UAyP2aO2AA0P19O1UAyP2dO2EAsf1zO1YAyP2hO2EAkv1pO1YAyP2mO2IAcf1gO1cA",
+  "yP2rO2IAT/1YO1cAh/yMO2EAHf2gO1QAdfyLO2EABv2eO1QAY/yLO2IA7vycO1QAUfyMO2IA1/ydO1UA",
+  "P/yNO2MAwPyeO1UALvyOO2MAqfyhO1UAHfyRO2QAkfykO1UAC/yUO2QAevyqO1YA+vuXO2UAZPywO1YA",
+  "6vubO2UATfy4O1YA2fugO2UANvzBO1cAyfumO2YAIPzKO1cAuPusO2YACvzVO1cAqPuzO2cA8/vhO1cA",
+  "mfu7O2cA3vvtO1gAifvEO2gAyPv6O1gAevvOO2gAsvsIPFgAa/vYO2kAnfsXPFkAXPvjO2kAiPsmPFkA",
+  "TvvwO2oAc/s2PFkAQPv9O2oAXvtGPFoAMvsMPGsASvtXPFoAJfsbPGsANvtpPFoAF/ssPGsAIvt7PFsA",
+  "C/s9PGwADvuOPFsA/vpQPGwA+/qhPFsA8vpjPG0A6Pq1PFwA5vp4PG0A1frJPFwA2vqNPG4Aw/rdPF0A",
+  "z/qkPG4AsPryPF0AxPq8PG8AnvoIPV0AuvrUPG8AjfoePV4AsPruPHAAe/o0PV4ApvoJPXAAavpKPV4A",
+  "nfokPXAAWvphPV8AlPpBPXEASfp5PV8Ai/pfPXEAOfqRPWAAg/p+PXIAKfqpPWAAe/qdPXIAGvrBPWEA",
+  "dPq+PXMAC/raPWEAbfrfPXMA/Pn0PWEAZvoCPnQA7vkOPmIAYPolPnQA4PkoPmIAWvpJPnQA0vlCPmMA",
+  "VfpuPnUAxfldPmMAUPqTPnUAuPl5PmQAS/q6PnYArPmUPmQAR/rgPnYAoPmxPmQAQ/oIP3cAlfnOPmUA",
+  "QPowP3cAivnsPmUAPfpZP3cAf/kKP2YAOvqCP3gAdfkpP2YAOPqsP3gAa/lJP2cANvrXP3kAYvlpP2cA",
+  "NPoCQHkAWfmLP2cAM/ouQHkAUPmsP2gAMvpbQHoASPnPP2gAMvqIQHoAQfnyP2kAMfq2QHsAOvkXQGkA",
+  "MvrlQHsAM/k7QGoAMvoVQXsALflhQGoAM/pGQXwAJ/mHQGsANPp4QXwAIvmuQGsANfqqQX0AHfnVQGsA",
+  "N/rdQX0AGfn+QGwAOfoSQn0AFfknQWwAPPpHQn4AEflQQW0APvp9Qn4ADvl7QW0AQfq0Qn4ADPmmQW0A",
+  "RPrsQn8ACfnSQW4ASPokQ38AB/n+QW4AS/peQ38ABvkrQm8AT/qYQ4AABflZQm8AU/rUQ4AABPmHQnAA",
+  "WPoQRIAABPm2QnAAXPpNRIEABPnmQnAAYfqKRIEABPkXQ3EAZvrJRIEABflIQ3EAa/oIRYIABvl5Q3EA",
+  "cPpIRYIAB/msQ3IAdvqIRYIACfnfQ3IAfPrJRYMAC/kTRHMAgfoLRoMADvlIRHMAh/pNRoMAEfl9RHMA",
+  "jfqPRoQAFPm0RHQAlPrSRoQAGPnrRHQAmvoVR4QAG/kjRXQAoPpYR4QAIPlbRXUAp/qbR4UAJPmURXUA",
+  "rvrfR4UAKfnORXUAtfoiSIUALvkJRnYAvPplSIUAM/lFRnYAw/qpSIYAOfmBRnYAyvrsSIYAP/m+RnYA",
+  "0fovSYYARfn7RncA2PpxSYYAS/k5R3cA4Pq0SYcAUvl4R3cA5/r2SYcAWfm3R3gA7/o3SocAYPn2R3gA",
+  "9/p4SocAZ/k2SHgA/vq5SogAb/l2SHgABvv5SogAd/m3SHkADvs5S4gAf/n4SHkAFvt4S4gAh/k5SXkA",
+  "Hvu2S4gAkPl6SXkAJfv0S4kAmfm7SXkALfsxTIkAovn8SXoANfttTIkAq/k9SnoAPfuoTIkAtPl+SnoA",
+  "RfviTIkAvvm/SnoATfscTYoAyPkAS3sAVftVTYoA0vlBS3sAXfuMTYoA3PmBS3sAZfvDTYoA5vnCS3sA",
+  "bfv5TYoA8fkCTHsAdfstTooA/PlCTHsAffthTosAB/qBTHwAhfuTTosAEfrBTHwAjfvETosAHfoATXwA",
+  "lfv1TosAKPo+TXwAnfskT4sAM/p9TXwApftRT4sAP/q7TXwArft+T4sASvr4TX0AtPupT4wAVvo2Tn0A",
+  "vPvUT4wAYvpyTn0AxPv9T4wAbvqvTn0AzPslUIwAevrrTn0A1PtMUIwAhvomT30A3PtyUIwAkvphT30A",
+  "4/uXUIwAnvqcT34A6/u6UI0Aq/rWT34A8/vdUI0At/oPUH4A+/v+UI0AxPpIUH4AA/wfUY0A0PqBUH4A",
+  "C/w+UY0A3fq4UH4AEvxdUY0A6vrwUH4AGvx6UY0A9/onUX4AIvyWUY0ABPtdUX8AKvyyUY4AEfuSUX8A",
+  "MvzMUY4AHvvIUX8AOvzmUY4AK/v8UX8AQvz+UY4AOfswUn8ASvwWUo4ARvtjUn8AUvwtUo4AVPuWUn8A",
+  "WvxDUo4AYfvJUn8AYvxYUo4Ab/v6Un8AavxtUo4AffsrU38AcvyBUo8Ai/tcU4AAevyUUo8AmfuMU4AA",
+  "gvynUo8Ap/u7U4AAivy5Uo8AtfvqU4AAkvzKUo8AxPsZVIAAmvzcUo8A0vtGVIAAovzsUo8A4ftzVIAA",
+  "qvz8Uo8A7/ugVIAA"
+ ].join("");
+ const bytes=Uint8Array.from(atob(encoded),character=>character.charCodeAt(0));
+ const view=new DataView(bytes.buffer);
+ return Array.from({length:216},(_,month)=>[0,1].map(sex=>[0,1,2].map(value=>view.getInt16(month*12+sex*6+value*2,true)/1000)));
+})();
+const foods={
+ breakfast:[
+ {name:"Avena cocida con banana",cost:"low",likes:["fruit","dairy"],kcal:330,alt:"Pan integral con huevo y tomate"},
+ {name:"Pan integral con huevo",cost:"low",likes:["eggs"],kcal:340,alt:"Avena con fruta de estación"},
+ {name:"Yogur natural con avena y fruta",cost:"mid",likes:["dairy","fruit"],kcal:320,alt:"Api o leche con pan y queso"},
+ {name:"Pan con queso fresco y papaya",cost:"low",likes:["dairy","fruit"],kcal:350,alt:"Tostadas con huevo"}
+ ],
+ snack:[
+ {name:"Una fruta de estación",cost:"low",likes:["fruit"],kcal:100,alt:"Zanahoria en bastones"},
+ {name:"Yogur natural",cost:"mid",likes:["dairy"],kcal:140,alt:"Una fruta de estación"},
+ {name:"Maní o semillas (porción pequeña)",cost:"low",likes:[],kcal:170,alt:"Una banana"},
+ {name:"Huevo duro y tomate",cost:"low",likes:["eggs","vegetables"],kcal:150,alt:"Fruta de estación"}
+ ],
+ lunch:[
+ {name:"Pollo a la plancha con arroz y ensalada",cost:"mid",likes:["chicken","vegetables"],kcal:560,alt:"Lentejas guisadas con arroz"},
+ {name:"Guiso de lentejas con arroz y verduras",cost:"low",likes:["legumes","vegetables"],kcal:540,alt:"Porotos con papa y ensalada"},
+ {name:"Carne de res magra con papa y ensalada",cost:"high",likes:["beef","vegetables"],kcal:570,alt:"Garbanzos guisados con arroz"},
+ {name:"Pescado a la plancha con papa y verduras",cost:"high",likes:["fish","vegetables"],kcal:520,alt:"Tortilla de huevo con papa y ensalada"},
+ {name:"Porotos con arroz y ensalada",cost:"low",likes:["legumes","vegetables"],kcal:550,alt:"Lentejas guisadas con arroz"},
+ {name:"Tortilla de verduras con quinoa",cost:"mid",likes:["eggs","vegetables"],kcal:510,alt:"Guiso de lentejas con arroz"}
+ ],
+ dinner:[
+ {name:"Sopa de verduras con huevo y pan",cost:"low",likes:["vegetables","eggs"],kcal:390,alt:"Tortilla de verduras con papa"},
+ {name:"Ensalada de garbanzos, tomate y huevo",cost:"mid",likes:["legumes","vegetables","eggs"],kcal:420,alt:"Sopa de verduras con huevo"},
+ {name:"Pollo salteado con verduras y arroz",cost:"mid",likes:["chicken","vegetables"],kcal:450,alt:"Porotos con verduras"},
+ {name:"Tortilla de papa y ensalada",cost:"low",likes:["eggs","vegetables"],kcal:430,alt:"Sopa de zapallo y pan integral"},
+ {name:"Quinoa con verduras y queso fresco",cost:"mid",likes:["vegetables","dairy"],kcal:440,alt:"Lentejas con verduras"}
+ ]
+};
+const budgetRank={low:1,mid:2,high:3};
+function selectedLikes(){return [...document.querySelectorAll('input[name="likes"]:checked')].map(x=>x.value)}
+function mealPick(type,day,likes,budget,dislikes,diet){
+ let list=foods[type].filter(f=>budgetRank[f.cost]<=budgetRank[budget]);
+ if(diet==="vegetarian") list=list.filter(f=>!f.likes.includes("chicken")&&!f.likes.includes("beef")&&!f.likes.includes("fish"));
+ if(diet==="noFish") list=list.filter(f=>!f.likes.includes("fish"));
+ if(diet==="noPork") list=list; // Las recetas de esta versión no incluyen cerdo.
+ if(likes.length) {
+  const preferred=list.filter(f=>f.likes.some(x=>likes.includes(x)));
+  if(preferred.length) list=preferred;
+ }
+ const avoided=dislikes.split(",").map(s=>s.trim().toLowerCase()).filter(Boolean);
+ list=list.filter(f=>!avoided.some(word=>(f.name+" "+f.alt).toLowerCase().includes(word)));
+ if(!list.length) list=foods[type].filter(f=>budgetRank[f.cost]<=budgetRank[budget]);
+ return list[(day*3+type.length)%list.length];
+}
+function renderPersonalMenu(){
+ if(!profile){$("menuIntro").textContent="Primero completa tus datos y preferencias.";return;}
+ const likes=selectedLikes(), budget=$("budget").value, diet=$("diet").value, dislikes=$("dislikes").value;
+ const days=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+ const types=[["Desayuno","breakfast"],["Media mañana","snack"],["Almuerzo","lunch"],["Merienda","snack"],["Cena","dinner"]];
+ const factor=profile.pediatric?1:profile.target/profile.tdee;
+ const groupLabels={chicken:"Pollo",eggs:"Huevo",legumes:"Legumbres",fish:"Pescado",beef:"Carne",dairy:"Lácteos",vegetables:"Verduras",fruit:"Frutas"};
+ const costLabels={low:"Económico",mid:"Moderado",high:"Flexible"};
+ let all=[];
+ $("dayTabs").innerHTML=days.map((day,i)=>`<button type="button" class="day-tab" data-day="${i}" aria-pressed="${i===0}">${day.slice(0,3)}</button>`).join("");
+ $("dayTabs").classList.remove("hidden");
+ $("days").innerHTML=days.map((day,i)=>{
+  let meals=types.map(([label,type])=>{
+   const mealIndex=all.length;
+   const item=mealPick(type,i+mealIndex,likes,budget,dislikes,diet);all.push(item);
+   const portion=Math.max(.75,Math.min(1.3,factor));
+    const portionText=profile.pediatric?"Porción orientativa; no calculada por la app":portion<.9?"Porción orientativa algo menor":portion>1.1?"Porción orientativa algo mayor":"Porción estándar orientativa";
+  const kcalLabel=profile.pediatric?"":`<span class="kcal"> · ≈ ${item.kcal} kcal</span>`;
+  const mealIcon=type==="breakfast"?"🍳":type==="snack"?"🍎":type==="lunch"?"🥗":"🥣";
+  const detailId=`meal-details-${i}-${mealIndex}`;
+  const foodGroups=item.likes.length?item.likes.map(group=>groupLabels[group]||group).join(", "):"Sin grupo etiquetado";
+  const calorieDetail=profile.pediatric?"":`<div class="meal-detail"><span>Calorías aproximadas</span><strong>≈ ${item.kcal} kcal</strong></div>`;
+  const childNote=profile.pediatric?"<p>El menú para menores es general; no incluye un cálculo calórico.</p>":"";
+  const details=`<div class="meal-details" id="${detailId}" hidden><div class="meal-details-grid">${calorieDetail}<div class="meal-detail"><span>Presupuesto</span><strong>${costLabels[item.cost]}</strong></div><div class="meal-detail"><span>Grupo de alimentos</span><strong>${foodGroups}</strong></div><div class="meal-detail"><span>Porción</span><strong>${portionText}</strong></div></div><p><strong>Alternativa:</strong> ${item.alt}</p>${childNote}</div>`;
+  return `<article class="meal-card"><div class="meal-art">${avatarMarkup}<span class="food-icon" aria-hidden="true">${mealIcon}</span></div><div class="meal-copy"><b>${label}</b><div class="meal-name">${item.name}${kcalLabel}</div><em>${portionText}.</em></div><button class="meal-arrow" type="button" data-food="${item.name}" aria-label="Ver datos de ${item.name}" aria-controls="${detailId}" aria-expanded="false">›</button>${details}</article>`;
+  }).join("");
+  return `<article class="day${i===0?" active":""}" data-day-panel="${i}"><h4>${day}</h4>${meals}</article>`;
+ }).join("");
+ $("dayTabs").querySelectorAll(".day-tab").forEach(button=>button.addEventListener("click",()=>{
+  $("dayTabs").querySelectorAll(".day-tab").forEach(tab=>tab.setAttribute("aria-pressed",String(tab===button)));
+  $("days").querySelectorAll("[data-day-panel]").forEach(panel=>panel.classList.toggle("active",panel.dataset.dayPanel===button.dataset.day));
+ }));
+ $("menuIntro").textContent=profile.pediatric?`Menú general por preferencias · sin cálculo de calorías para menores · Presupuesto ${$("budget").selectedOptions[0].text}`:`Menú orientativo · ${Math.round(profile.target).toLocaleString("es-BO")} kcal/día estimadas · Presupuesto ${$("budget").selectedOptions[0].text}`;
+ $("menuNotice").textContent=profile.pediatric?"Este menú es general y no está calculado para el crecimiento de un menor. La app no filtra ingredientes por alergias; verifica cada receta y consulta con un profesional de salud.":`Broki priorizó opciones ${budget==="low"?"económicas":budget==="mid"?"de costo moderado":"variadas"} y tus alimentos preferidos. Las porciones sugeridas son aproximadas; el menú no calcula con precisión las calorías reales de cada preparación.`;
+}
+function updateAgeFields(){
+ const ageValue=$("age").value;
+ const pediatric=ageValue!==""&&Number(ageValue)<18;
+ $("heightLabel").textContent=pediatric&&Number(ageValue)<2?"Longitud recostado (cm) *":"Estatura (cm) *";
+ $("ageMonthsField").classList.remove("hidden");
+ $("ageMonths").disabled=false;
+ $("ageMonths").required=pediatric;
+ $("activityField").classList.toggle("hidden",pediatric);
+ $("goalField").classList.toggle("hidden",pediatric);
+ $("activity").disabled=pediatric;
+ $("activity").required=!pediatric;
+ $("goal").disabled=pediatric;
+ $("goal").required=!pediatric;
+ if(profile){
+  profile=null;
+  $("results").classList.add("hidden");
+  $("emptyState").classList.remove("hidden");
+  $("days").innerHTML="";
+  $("dayTabs").classList.add("hidden");
+  $("menuIntro").textContent="Actualiza tus datos y calcula de nuevo para generar alternativas.";
+ }
+}
+function classifyChildBmi(zScore,ageMonths){
+ if(ageMonths<=60){
+  if(zScore>3)return "Por encima de +3 DE (referencia OMS)";
+  if(zScore>2)return "Por encima de +2 DE (referencia OMS)";
+  if(zScore>1)return "Entre +1 y +2 DE (referencia OMS)";
+  if(zScore< -3)return "Por debajo de -3 DE (referencia OMS)";
+  if(zScore< -2)return "Por debajo de -2 DE (referencia OMS)";
+ }else{
+  if(zScore>2)return "Por encima de +2 DE (referencia OMS)";
+  if(zScore>1)return "Por encima de +1 DE (referencia OMS)";
+  if(zScore< -3)return "Por debajo de -3 DE (referencia OMS)";
+  if(zScore< -2)return "Por debajo de -2 DE (referencia OMS)";
+ }
+ return "Sin alerta por estos puntos de corte OMS";
+}
+$("profileForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const age=+$("age").value,sex=$("sex").value,weight=+$("weight").value,height=+$("height").value,activity=+$("activity").value,goal=$("goal").value;
+ if(age<0||age>100||!sex){alert("Revisa la edad y el sexo de referencia.");return;}
+ if(age<18){
+  const ageMonth=Number($("ageMonths").value),totalMonths=age*12+ageMonth;
+  if(weight<2||weight>300||height<45||height>230){alert("Revisa el peso y la estatura.");return;}
+  const bmi=weight/((height/100)**2),sexIndex=sex==="female"?0:1;
+  const [l,m,s]=growthTable[totalMonths][sexIndex];
+  const zScore=l===0?Math.log(bmi/m)/s:(Math.pow(bmi/m,l)-1)/(l*s);
+  profile={pediatric:true,bmi,target:null,tdee:null};
+  $("bmi").textContent=bmi.toFixed(1);
+  $("bmiLabel").textContent=classifyChildBmi(zScore,totalMonths);
+  $("bmiZ").textContent=`${zScore>0?"+":""}${zScore.toFixed(2)} DE`;
+    $("growthLabel").textContent=`OMS ${totalMonths<=60?"0–5":"5–19"} años · ${age} ${age===1?"año":"años"} y ${ageMonth} ${ageMonth===1?"mes":"meses"}`;
+  $("bmiNote").textContent="El IMC para la edad es una referencia, no un diagnóstico ni una evaluación completa del crecimiento. En menores no se calcula una meta de calorías o de cambio de peso; consulta con pediatría o nutrición.";
+  document.querySelectorAll(".adult-only").forEach(node=>node.classList.add("hidden"));
+  $("childMetric").classList.remove("hidden");
+  $("emptyState").classList.add("hidden");
+  $("results").classList.remove("hidden");
+  $("resultCard").scrollIntoView({behavior:"smooth",block:"nearest"});
+  return;
+ }
+ if(weight<30||weight>300||height<120||height>230||!activity){alert("Revisa tus datos de adulto y selecciona el nivel de actividad.");return;}
+ const bmi=weight/((height/100)**2),bmr=10*weight+6.25*height-5*age+(sex==="male"?5:-161),tdee=bmr*activity;
+ let target=tdee,goalLabel="Mantenimiento estimado";
+ if(goal==="lose"&&bmi>=18.5) {target=tdee-250;goalLabel="Déficit moderado orientativo";}
+ if(goal==="gain"&&bmi<30) {target=tdee+250;goalLabel="Superávit moderado orientativo";}
+ if(goal==="habits")goalLabel="Enfoque en hábitos y variedad";
+ let bmiText,bmiAdvice;
+ if(bmi<18.5){bmiText="Por debajo del rango de referencia";bmiAdvice="El IMC está por debajo del rango de referencia para adultos. No se aplicará un objetivo automático de pérdida de peso.";}
+ else if(bmi<25){bmiText="Rango de referencia";bmiAdvice="El IMC está dentro del rango de referencia habitual para adultos.";}
+ else if(bmi<30){bmiText="Por encima del rango de referencia";bmiAdvice="El IMC es solo orientativo y no distingue músculo de grasa.";}
+ else{bmiText="IMC elevado";bmiAdvice="Conviene valorar tu contexto con un profesional; el IMC por sí solo no diagnostica.";}
+ if(goal==="lose"&&bmi<18.5){target=tdee;goalLabel="Sin déficit automático por IMC bajo";}
+ if(goal==="gain"&&bmi>=30){target=tdee;goalLabel="Objetivo a revisar con profesional";}
+ profile={bmr,bmi,tdee,target,goal,goalLabel};
+ $("bmr").textContent=Math.round(bmr).toLocaleString("es-BO");$("bmi").textContent=bmi.toFixed(1);$("bmiLabel").textContent=bmiText;$("tdee").textContent=Math.round(tdee).toLocaleString("es-BO");$("target").textContent=Math.round(target).toLocaleString("es-BO")+" kcal";$("goalLabel").textContent=goalLabel;
+ $("childMetric").classList.add("hidden");
+ document.querySelectorAll(".adult-only").forEach(node=>node.classList.remove("hidden"));
+ $("bmiNote").textContent=bmiAdvice+" El objetivo energético es una estimación educativa, no una dieta terapéutica. Si tienes una condición médica, embarazo, antecedentes de trastornos alimentarios o necesidades especiales, consulta a un nutricionista.";
+ $("emptyState").classList.add("hidden");$("results").classList.remove("hidden");
+ $("resultCard").scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+$("generate").addEventListener("click",()=>{
+ if(!profile){alert("Primero completa tus datos y calcula tus resultados.");setActiveView("data","#calculadora");return;}
+ renderPersonalMenu();setActiveView("menu","#menu");
+});
+["diet","budget","dislikes","allergies"].forEach(id=>$(id).addEventListener("change",()=>{if(profile)renderPersonalMenu()}));
+document.querySelectorAll('input[name="likes"]').forEach(x=>x.addEventListener("change",()=>{if(profile)renderPersonalMenu()}));
+$("age").addEventListener("input",updateAgeFields);
+$("ageMonths").addEventListener("change",updateAgeFields);
+updateAgeFields();
+const appViews=[
+ {name:"home",element:$("home")},
+ {name:"menu",element:$("menu")},
+ {name:"data",element:$("calculadora").closest(".layout")},
+ {name:"dressup",element:$("vestir")},
+ {name:"tastes",element:$("preferencias")}
+];
+const bottomNavLinks=[...document.querySelectorAll(".bottom-nav a")];
+function viewForHash(hash){
+ if(hash==="#inicio")return "home";
+ const target=$(hash.slice(1));
+ if(!target)return null;
+ return appViews.find(view=>view.element===target||view.element.contains(target))?.name||null;
+}
+function setActiveView(viewName,hash=location.hash,writeHistory=true){
+ if(!appViews.some(view=>view.name===viewName))return;
+ appViews.forEach(view=>view.element.classList.toggle("view-hidden",view.name!==viewName));
+ bottomNavLinks.forEach(link=>{
+  if(viewForHash(link.hash)===viewName)link.setAttribute("aria-current","page");
+  else link.removeAttribute("aria-current");
+ });
+ if(writeHistory&&hash&&location.hash!==hash)history.pushState({view:viewName},"",hash);
+ window.scrollTo({top:0,behavior:writeHistory?"smooth":"auto"});
+}
+document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener("click",event=>{
+ const viewName=viewForHash(link.hash);
+ if(!viewName)return;
+ event.preventDefault();
+ setActiveView(viewName,link.hash,true);
+}));
+window.addEventListener("popstate",()=>setActiveView(viewForHash(location.hash)||"home",location.hash));
+setActiveView(viewForHash(location.hash)||"home",location.hash);
+function updateWardrobe(option){
+ const kind=option.dataset.kind;
+ document.querySelectorAll(`.wardrobe-option[data-kind="${kind}"]`).forEach(item=>item.setAttribute("aria-pressed",String(item===option)));
+ if(kind==="hat")$("avatarHat").textContent=option.dataset.value;
+ if(kind==="accessory"){
+  $("avatarAccessory").textContent=option.dataset.value;
+  $("avatarAccessory").className=`avatar-accessory position-${option.dataset.position||"face"}`;
+ }
+ if(kind==="shirt")$("brokiDoll").style.setProperty("--broki-shirt",option.dataset.value);
+ const hat=document.querySelector('.wardrobe-option[data-kind="hat"][aria-pressed="true"]').dataset.label;
+ const accessory=document.querySelector('.wardrobe-option[data-kind="accessory"][aria-pressed="true"]').dataset.label;
+ const shirtLabel=document.querySelector('.wardrobe-option[data-kind="shirt"][aria-pressed="true"]').dataset.label.toLowerCase();
+ const shirt=shirtLabel==="amarillo"?"amarilla":shirtLabel;
+ $("lookMessage").textContent=`¡Broki luce ${hat.toLowerCase()}, ${accessory.toLowerCase()} y ropa ${shirt}!`;
+ $("brokiDoll").classList.remove("pop");
+ requestAnimationFrame(()=>$("brokiDoll").classList.add("pop"));
+}
+document.querySelectorAll(".wardrobe-tab").forEach(tab=>tab.addEventListener("click",()=>{
+ document.querySelectorAll(".wardrobe-tab").forEach(item=>item.setAttribute("aria-selected",String(item===tab)));
+ document.querySelectorAll("[data-wardrobe-panel]").forEach(panel=>panel.hidden=panel.dataset.wardrobePanel!==tab.dataset.wardrobe);
+ const firstOption=document.querySelector(`.wardrobe-options${tab.dataset.wardrobe==="hat"?"[aria-label='Gorros']":`[data-wardrobe-panel="${tab.dataset.wardrobe}"]`} .wardrobe-option`);
+ if(firstOption)firstOption.focus({preventScroll:true});
+}));
+document.querySelectorAll(".wardrobe-option").forEach(option=>option.addEventListener("click",()=>updateWardrobe(option)));
+$("days").addEventListener("click",event=>{
+ const button=event.target.closest(".meal-arrow");
+ if(!button)return;
+ const details=$(button.getAttribute("aria-controls"));
+ const expanded=button.getAttribute("aria-expanded")==="true";
+ button.setAttribute("aria-expanded",String(!expanded));
+ button.setAttribute("aria-label",`${expanded?"Ver":"Ocultar"} datos de ${button.dataset.food}`);
+ details.hidden=expanded;
+});
+$("surpriseOutfit").addEventListener("click",()=>{
+ ["hat","accessory","shirt"].forEach(kind=>{
+  const options=[...document.querySelectorAll(`.wardrobe-option[data-kind="${kind}"]`)];
+  updateWardrobe(options[Math.floor(Math.random()*options.length)]);
+ });
+});
+$("resetOutfit").addEventListener("click",()=>document.querySelectorAll('.wardrobe-option[data-default="true"]').forEach(updateWardrobe));
+</script>
+</body></html>
